@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>16.0</MinimumVisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{3E97E44B-28DF-47F4-8ECA-7ABAEF1C11B0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Nostalgia</RootNamespace>
+    <AssemblyName>Nostalgia</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+    <UseCodebase>true</UseCodebase>
+    <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+    <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
+    <IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
+    <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
+    <StartAction>Program</StartAction>
+    <StartProgram Condition="'$(DevEnvDir)' != ''">$(DevEnvDir)devenv.exe</StartProgram>
+    <StartArguments>/rootsuffix Exp</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Controls\DataSourceProviderBase.cs" />
+    <Compile Include="Controls\DateClassificationConverter.cs" />
+    <Compile Include="Controls\FeedView.xaml.cs">
+      <DependentUpon>FeedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FileAssociatedIconImageConverter.cs" />
+    <Compile Include="Controls\FileSizeFormatConverter.cs" />
+    <Compile Include="Controls\FileSystemDataProvider.cs" />
+    <Compile Include="Controls\ProjectTemplatesDataProvider.cs" />
+    <Compile Include="Controls\XmlNodeSelector.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NostalgiaPackage.cs" />
+    <Compile Include="Controls\RecentProjectsDataProvider.cs" />
+    <Compile Include="Services\DriveDetector.cs" />
+    <Compile Include="Services\FsInfoFormat.cs" />
+    <Compile Include="StartPage.cs" />
+    <Compile Include="StartPageWindow.cs" />
+    <Compile Include="StartPageWindowCommand.cs" />
+    <Compile Include="StartPageWindowControl.xaml.cs">
+      <DependentUpon>StartPageWindowControl.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="16.0.206" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="16.9.1050" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\FeedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Icons\NewFileCollection\NewFileCollection_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\NewFile\NewFile_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\OpenfileDialog\OpenfileDialog_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\OpenfileDialog\OpenfileDialog_grey_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\OpenFile\OpenFile_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\OpenFolder\OpenFolder_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\OpenProject\OpenProject_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\PushpinUnpin\PushpinUnpin_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\PushpinUnpin\PushpinUnpin_disabled_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\Pushpin\Pushpin_cyan_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\Pushpin\Pushpin_disabled_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\ShowStartPage\ShowStartPage_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StartPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StartPageWindowControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="styles\mrulistboxstyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="styles\startpageresources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="themes\generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\NewFileCollection\NewFileCollection_16x.png" />
+    <Resource Include="Icons\NewFileCollection\NewFileCollection_16x.svg" />
+    <Resource Include="Icons\NewFile\NewFile_16x.png" />
+    <Resource Include="Icons\NewFile\NewFile_16x.svg" />
+    <Resource Include="Icons\OpenfileDialog\OpenfileDialog_16x.png" />
+    <Resource Include="Icons\OpenfileDialog\OpenfileDialog_16x.svg" />
+    <Resource Include="Icons\OpenfileDialog\OpenfileDialog_grey_16x.png" />
+    <Resource Include="Icons\OpenfileDialog\OpenfileDialog_grey_16x.svg" />
+    <Resource Include="Icons\OpenFile\OpenFile_16x.png" />
+    <Resource Include="Icons\OpenFile\OpenFile_16x.svg" />
+    <Resource Include="Icons\OpenFolder\OpenFolder_16x.png" />
+    <Resource Include="Icons\OpenFolder\OpenFolder_16x.svg" />
+    <Resource Include="Icons\OpenProject\OpenProject_16x.png" />
+    <Resource Include="Icons\OpenProject\OpenProject_16x.svg" />
+    <Resource Include="Icons\PushpinOutlineAngle\PushpinOutlineAngle_16x.png" />
+    <Resource Include="Icons\PushpinOutlineAngle\PushpinOutlineAngle_16x.svg" />
+    <Resource Include="Icons\PushpinUnpinOutlineAngle\PushpinUnpinOutlineAngle_16x.png" />
+    <Resource Include="Icons\PushpinUnpinOutlineAngle\PushpinUnpinOutlineAngle_16x.svg" />
+    <Resource Include="Icons\PushpinUnpin\PushpinUnpin_16x.png" />
+    <Resource Include="Icons\PushpinUnpin\PushpinUnpin_16x.svg" />
+    <Resource Include="Icons\PushpinUnpin\PushpinUnpin_disabled_16x.png" />
+    <Resource Include="Icons\PushpinUnpin\PushpinUnpin_disabled_16x.svg" />
+    <Resource Include="Icons\Pushpin\Pushpin_16x.png" />
+    <Resource Include="Icons\Pushpin\Pushpin_16x.svg" />
+    <Resource Include="Icons\Pushpin\Pushpin_cyan_16x.png" />
+    <Resource Include="Icons\Pushpin\Pushpin_cyan_16x.svg" />
+    <Resource Include="Icons\Pushpin\Pushpin_disabled_16x.png" />
+    <Resource Include="Icons\Pushpin\Pushpin_disabled_16x.svg" />
+    <Content Include="Icons\ShowStartPage\ShowStartPage_16x.png" />
+    <Resource Include="Icons\ShowStartPage\ShowStartPage_16x.svg" />
+    <Resource Include="Icons\ShowStartPage\ShowStartPage_16x_24.bmp" />
+    <Resource Include="Icons\ShowStartPage\ShowStartPage_16x_32.bmp" />
+    <Content Include="Screenshots\vs2002.jpg" />
+    <Content Include="Screenshots\vs2003.gif" />
+    <Content Include="Screenshots\vs2008.jpg" />
+    <Content Include="Screenshots\vs2010.PNG" />
+    <Content Include="Screenshots\vs2012.png" />
+    <Content Include="Screenshots\vs2015-2.png" />
+    <Content Include="Screenshots\vs2015.png" />
+    <Content Include="Screenshots\vs2017.png" />
+    <VSCTCompile Include="NostalgiaPackage.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+    </VSCTCompile>
+    <Content Include="Resources\StartPageWindowCommand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Pin\mousedown.png" />
+    <Resource Include="Icons\Pin\pinned_002520mouseover.png" />
+    <Resource Include="Icons\Pin\pinned_002520normal.png" />
+    <Resource Include="Icons\Pin\unpinned_002520mouseover.png" />
+    <Resource Include="Icons\Pin\unpinned_002520normal.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
