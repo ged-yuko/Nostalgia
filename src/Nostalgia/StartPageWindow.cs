@@ -23,7 +23,7 @@ namespace Nostalgia
         /// </summary>
         public StartPageWindow() : base(null)
         {
-            this.Caption = "StartPageWindow";
+            this.Caption = "Nostalgia Start Page";
 
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on

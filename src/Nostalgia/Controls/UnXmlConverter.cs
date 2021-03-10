@@ -10,11 +10,9 @@ using System.Xml;
 
 namespace Nostalgia.Controls
 {
-    abstract class XmlNodeSelectorBase : MarkupExtension, IValueConverter
+    public class UnXmlConverter : MarkupExtension, IValueConverter
     {
-        public string XPath { get; set; }
-
-        public XmlNodeSelectorBase()
+        public UnXmlConverter()
         {
         }
 
@@ -25,28 +23,14 @@ namespace Nostalgia.Controls
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is XmlNode node)
+            switch (value)
             {
-                return this.SelectImpl(node);
-            }
-            else
-            {
-                return value;
-            }
-        }
-
-        protected abstract object SelectImpl(XmlNode node);
-
-        protected object PrepareItem(XmlNode node)
-        {
-            switch (node.NodeType)
-            {
-                case XmlNodeType.Attribute:
-                    return ((XmlAttribute)node).Value;
-                case XmlNodeType.Text: 
-                    return ((XmlText)node).Value;
-                case XmlNodeType.CDATA: 
-                    return ((XmlCDataSection)node).Value;
+                case XmlAttribute node:
+                    return node.Value;
+                case XmlText node: 
+                    return node.Value;
+                case XmlCDataSection node:
+                    return node.Value;
                 case XmlNodeType.Whitespace:
                 case XmlNodeType.SignificantWhitespace:
                     return string.Empty;
@@ -64,29 +48,13 @@ namespace Nostalgia.Controls
                 case XmlNodeType.EndEntity:
                 case XmlNodeType.XmlDeclaration:
                 default:
-                    return node;
+                    return value;
             }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
-        }
-    }
-
-    class XmlNodesSelector : XmlNodeSelectorBase
-    {
-        protected override object SelectImpl(XmlNode node)
-        {
-            return node.SelectNodes(this.XPath).OfType<XmlNode>().Select(n => this.PrepareItem(n)).ToArray();
-        }
-    }
-
-    class XmlNodeSelector : XmlNodeSelectorBase
-    {
-        protected override object SelectImpl(XmlNode node)
-        {
-            return this.PrepareItem(node.SelectSingleNode(this.XPath));
         }
     }
 }

@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32.SafeHandles;
 
+// todo: builtin recent locations browser
+
+// all hail Jan Dolinay https://www.codeproject.com/Articles/18062/Detecting-USB-Drive-Removal-in-a-C-Program
+
 namespace Nostalgia.Services
 {
 

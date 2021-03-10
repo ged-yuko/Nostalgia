@@ -54,14 +54,15 @@
     <Compile Include="Controls\FileSizeFormatConverter.cs" />
     <Compile Include="Controls\FileSystemDataProvider.cs" />
     <Compile Include="Controls\ProjectTemplatesDataProvider.cs" />
-    <Compile Include="Controls\XmlNodeSelector.cs" />
+    <Compile Include="Controls\UnXmlConverter.cs" />
+    <Compile Include="Controls\VsOpenWebBrowserCommand.cs" />
+    <Compile Include="Controls\VsCommand.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NostalgiaPackage.cs" />
     <Compile Include="Controls\RecentProjectsDataProvider.cs" />
     <Compile Include="Services\DriveDetector.cs" />
     <Compile Include="Services\FsInfoFormat.cs" />
-    <Compile Include="StartPage.cs" />
     <Compile Include="StartPageWindow.cs" />
     <Compile Include="StartPageWindowCommand.cs" />
     <Compile Include="StartPageWindowControl.xaml.cs">
@@ -75,6 +76,21 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.Dialogs">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.Dialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.ExtensionManager">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.ExtensionManager.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.ExtensionsExplorer">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.ExtensionsExplorer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.UI.Internal">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Microsoft.VisualStudio.Shell.UI.Internal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TemplateProviders.Implementation">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.TemplateProviders.Implementation.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -145,25 +161,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="StartPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="StartPageWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="styles\mrulistboxstyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="styles\startpageresources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="themes\generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

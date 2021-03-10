@@ -22,8 +22,12 @@
 
             <!--<vs:StringToStringWithoutHypertextTagsConverter x:Key="StringToStringWithoutHypertextTagsConverter"/>-->
 
+            <c:VsCommand x:Key="openCmd" CommandName="File.OpenProject" />
+            <c:VsCommand x:Key="createCmd" CommandName="File.NewProject" />
+
             <c:RecentProjectsDataProvider x:Key="recentProjects" />
-            
+            <c:ProjectTemplatesDataProvider x:Key="recentTemplates" />
+
             <XmlDataProvider x:Key="rssSource" Source="https://vsstartpage.blob.core.windows.net/news/vs" />
 
             <CollectionViewSource x:Key="groupedRecentProjects" Source="{Binding Source={StaticResource recentProjects}}">
@@ -53,8 +57,10 @@
                     </Trigger>
                 </Style.Triggers>
                 <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                <Setter Property="BorderThickness" Value="0"/>
             </Style>
-            
+
             <Style TargetType="ListViewItem">
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
@@ -64,7 +70,7 @@
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             </Style>
-            
+
             <Style TargetType="{x:Type CheckBox}" x:Key="pin">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -115,19 +121,25 @@
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="5" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Margin="0,0,0,10" Orientation="Horizontal">
-                <TextBlock Text="Recent" Style="{StaticResource topHeader}"/>
+                <TextBlock Text="Recent projects" Style="{StaticResource topHeader}"/>
             </StackPanel>
 
 
-            <ListView Grid.Row="1" ItemsSource="{Binding Source={StaticResource groupedRecentProjects}}"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderThickness="0">
+            <ListView Grid.Row="2" ItemsSource="{Binding Source={StaticResource groupedRecentProjects}}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="0,5">
+                            <Grid.InputBindings>
+                                <MouseBinding Gesture="LeftDoubleClick" Command="{StaticResource openCmd}" CommandParameter="{Binding Path}" />
+                                <KeyBinding Key="Return" Command="{StaticResource openCmd}" CommandParameter="{Binding Path}" />
+                            </Grid.InputBindings>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="5" />
@@ -185,6 +197,88 @@
                     </GroupStyle>
                 </ListView.GroupStyle>
             </ListView>
+
+            <TextBlock Grid.Row="4">
+                <Hyperlink Command="{StaticResource openCmd}" >
+                    <TextBlock Text="Open project..." />
+                </Hyperlink>
+            </TextBlock>
+        </Grid>
+
+        <Grid Grid.Column="3" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="0,0,0,10" Orientation="Horizontal">
+                <TextBlock Text="Recent project templates" Style="{StaticResource topHeader}"/>
+            </StackPanel>
+
+
+            <ListView Grid.Row="2" ItemsSource="{Binding Source={StaticResource recentTemplates}}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,5">
+                            <Grid.InputBindings>
+                                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Command}" />
+                                <KeyBinding Key="Return" Command="{Binding Command}" />
+                            </Grid.InputBindings>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Image Grid.Column="0" VerticalAlignment="Center" >
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Icon}" Value="{x:Null}">
+                                                <Setter Property="Source" Value="Icons/NewFileCollection/NewFileCollection_16x.png" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                        <Setter Property="Source" Value="{Binding Icon}" />
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+
+                            <TextBlock Grid.Column="2" Text="{Binding Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="4" Text="{Binding ProjectType}" VerticalAlignment="Center"  />
+
+                            <CheckBox Grid.Column="6" IsChecked="{Binding IsFavorite}"
+                                      VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5">
+                                <CheckBox.Style>
+                                    <Style TargetType="CheckBox" BasedOn="{StaticResource pin}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsMouseOver,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ListViewItem}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                    </Style>
+                                </CheckBox.Style>
+                            </CheckBox>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <TextBlock Grid.Row="4">
+                <Hyperlink Command="{StaticResource createCmd}" >
+                    <TextBlock Text="Create new project..." />
+                </Hyperlink>
+            </TextBlock>
         </Grid>
 
         <Grid Grid.Column="5" Grid.Row="1" DataContext="{Binding Source={StaticResource rssSource}}">
@@ -232,7 +326,7 @@
                                             </Grid.RowDefinitions>
 
                                             <TextBlock Style="{StaticResource smallHeader}" TextWrapping="Wrap">
-                                                <Hyperlink Command="{x:Static ss:VSCommands.Browse}" CommandParameter="{Binding XPath=link}">
+                                                <Hyperlink Command="{x:Static ss:VSCommands.Browse}" CommandParameter="{Binding XPath=link/text(), Converter={c:UnXmlConverter}}">
                                                     <TextBlock Text="{Binding XPath=title}" />
                                                 </Hyperlink>
                                             </TextBlock>
@@ -257,9 +351,11 @@
                             </Grid>
                         </Grid>
                         <!--<DataTemplate.Triggers>
-                            --><!-- Changing disabled state from "Hidden" to "Collapsed" to work around DevDiv 517937.
+                            -->
+                        <!-- Changing disabled state from "Hidden" to "Collapsed" to work around DevDiv 517937.
                                         This assumes that all the overlapped controls in the outer Grid are the same size.
-                                        Currently they are all TextBlocks but beware of resizing issues if this changes--><!--
+                                        Currently they are all TextBlocks but beware of resizing issues if this changes-->
+                        <!--
                             <DataTrigger Binding="{Binding Path=Rss.Status}" Value="DownloadDisabled">
                                 <Setter TargetName="OptIn"       Property="Visibility" Value="Visible" />
                                 <Setter TargetName="Loading"     Property="Visibility" Value="Collapsed" />

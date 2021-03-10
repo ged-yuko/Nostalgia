@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,18 @@ namespace Nostalgia
 {
     static class Extensions
     {
+        public static Type[] GetTypesOrNone(this Assembly asm)
+        {
+            try
+            {
+                return asm.GetTypes();
+            }
+            catch (Exception ex)
+            {
+                return new Type[0];
+            }
+        }
+
         public static int GetWeekNumber(this DateTime t)
         {
             var weeksFirstDay = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;

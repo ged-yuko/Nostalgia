@@ -46,7 +46,7 @@
         <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
         <Icon guid="guidShowStartPageImage" id="bmpShowStartPageImage" />
         <Strings>
-          <ButtonText>StartPageWindow</ButtonText>
+          <ButtonText>Nostalgia Start Page</ButtonText>
         </Strings>
       </Button>
     </Buttons>

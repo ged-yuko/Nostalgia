@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell.CodeContainerManagement;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -62,11 +63,14 @@ namespace Nostalgia.Controls
         private string _description = null;
         public string Description { get { return _description ?? (_description = FsInfoFormat.GetFsItemDescription(_path)); } }
 
-
         private ImageSource _largeIcon = null, _smallIcon = null;
 
         public ImageSource SmallIcon { get { return _smallIcon ?? (_smallIcon = FsInfoFormat.GetFsItemIcon(_path, true)); } }
         public ImageSource LargeIcon { get { return _largeIcon ?? (_largeIcon = FsInfoFormat.GetFsItemIcon(_path, false)); } }
+
+        public string Path { get { return _path; } }
+
+        // public DelegateCommand Command { get; private set; }
 
         public RecentProject(string path, CodeContainer info)
         {
@@ -76,7 +80,14 @@ namespace Nostalgia.Controls
             this.Info = new FileInfo(path);
             this.IsFavorite = _info.IsFavorite;
             this.ClassificationCategory = DateClassificationCategory.Get(this);
+
+            // this.Command = new DelegateCommand(this.DoOpenProject);
         }
+
+        //private void DoOpenProject()
+        //{
+        //    MessageBox.Show(_path);
+        //}
 
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {

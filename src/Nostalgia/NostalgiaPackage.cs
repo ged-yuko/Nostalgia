@@ -57,8 +57,8 @@ namespace Nostalgia
 
             //ICommand cmd = VSCommands.ExecuteCommand;
             
-            OleMenuCommandService commandService = await this.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
-            commandService.GlobalInvoke(StartPageWindowCommand.Instance.MenuCommandID);
+            //OleMenuCommandService commandService = await this.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
+            //commandService.GlobalInvoke(StartPageWindowCommand.Instance.MenuCommandID);
         }
 
         #endregion
