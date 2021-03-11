@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Expression = System.Linq.Expressions.Expression;
 
 namespace Nostalgia.Controls
 {
@@ -85,16 +86,51 @@ namespace Nostalgia.Controls
 
         private async void DoCreateProject()
         {
+            _callNewProjectDialog.Value(_info.Hierarchy, _info.Name);
+        }
+
+        static Lazy<Action<string, string>> _callNewProjectDialog = new Lazy<Action<string, string>>(() => MakeNewProjectDialogMethod());
+
+        static Action<string, string> MakeNewProjectDialogMethod()
+        {
             var newProjInfoType = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypesOrNone()).FirstOrDefault(t => t.Name == "VSNEWPROJECTDLGINFO");
-            var newProjInfo = Activator.CreateInstance(newProjInfoType);
-            newProjInfoType.GetField("pwzExpand").SetValue(newProjInfo, _info.Hierarchy);
-            newProjInfoType.GetField("pwzSelect").SetValue(newProjInfo, _info.Name);
 
             var sDialogService = Microsoft.VisualStudio.Shell.ServiceProvider.GlobalProvider.GetService(typeof(SVsDialogService));
             var rawDialogService = (SVsDialogService)sDialogService;
-            string loc = null;
-            rawDialogService.GetType().GetMethod("InvokeDialog").Invoke(rawDialogService, new[] { newProjInfo, loc });
+
+            var hierarchyArg = Expression.Parameter(typeof(string), "hierarchy");
+            var nameArg = Expression.Parameter(typeof(string), "name");
+
+            var newProjInfoVar = Expression.Variable(newProjInfoType, "newProjInfo");
+            var locVar = Expression.Variable(typeof(string), "locVar");
+            var expr = Expression.Lambda<Action<string,string>>(
+                Expression.Block(
+                    new[] { newProjInfoVar, locVar },
+                    Expression.Assign(newProjInfoVar, Expression.New(newProjInfoType)),
+                    Expression.Assign(Expression.Field(newProjInfoVar, newProjInfoType.GetField("pwzExpand")), hierarchyArg),
+                    Expression.Assign(Expression.Field(newProjInfoVar, newProjInfoType.GetField("pwzSelect")), nameArg),
+                    Expression.Call(Expression.Constant(rawDialogService, typeof(SVsDialogService)), rawDialogService.GetType().GetMethod("InvokeDialog"), newProjInfoVar, locVar)
+                ),
+                new[] { hierarchyArg, nameArg }
+            );
+
+            var compiledExpr = expr.Compile();
+            return compiledExpr;
         }
+
+        //private async void DoCreateProjectOld()
+        //{
+        //    var newProjInfoType = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypesOrNone()).FirstOrDefault(t => t.Name == "VSNEWPROJECTDLGINFO");
+        //    var newProjInfo = Activator.CreateInstance(newProjInfoType);
+        //    newProjInfoType.GetField("pwzExpand").SetValue(newProjInfo, _info.Hierarchy);
+        //    newProjInfoType.GetField("pwzSelect").SetValue(newProjInfo, _info.Name);
+
+        //    var sDialogService = Microsoft.VisualStudio.Shell.ServiceProvider.GlobalProvider.GetService(typeof(SVsDialogService));
+        //    var rawDialogService = (SVsDialogService)sDialogService;
+
+        //    string loc = null;
+        //    rawDialogService.GetType().GetMethod("InvokeDialog").Invoke(rawDialogService, new[] { newProjInfo, loc });
+        //}
     }
 
     public class ProjectTemplatesDataProvider : DataSourceProviderBase

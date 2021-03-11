@@ -12,15 +12,11 @@
              xmlns:my="clr-namespace:Nostalgia"
              xmlns:c="clr-namespace:Nostalgia.Controls"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300"
+             d:DesignHeight="300" d:DesignWidth="700"
              Name="MyToolWindow">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="styles/startpageresources.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-
-            <!--<vs:StringToStringWithoutHypertextTagsConverter x:Key="StringToStringWithoutHypertextTagsConverter"/>-->
+            <vs:StringToStringWithoutHypertextTagsConverter x:Key="StringToStringWithoutHypertextTagsConverter"/>
 
             <c:VsCommand x:Key="openCmd" CommandName="File.OpenProject" />
             <c:VsCommand x:Key="createCmd" CommandName="File.NewProject" />
@@ -102,7 +98,7 @@
 
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="White" >
+    <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10" />
             <ColumnDefinition Width="*" />
@@ -326,13 +322,13 @@
                                             </Grid.RowDefinitions>
 
                                             <TextBlock Style="{StaticResource smallHeader}" TextWrapping="Wrap">
-                                                <Hyperlink Command="{x:Static ss:VSCommands.Browse}" CommandParameter="{Binding XPath=link/text(), Converter={c:UnXmlConverter}}">
-                                                    <TextBlock Text="{Binding XPath=title}" />
-                                                </Hyperlink>
-                                            </TextBlock>
+                                                    <Hyperlink Command="{x:Static ss:VSCommands.Browse}" CommandParameter="{Binding XPath=link/text(), Converter={c:UnXmlConverter}}">
+                                                        <TextBlock Text="{Binding XPath=title}" />
+                                                    </Hyperlink>
+                                                </TextBlock>
 
                                             <TextBlock Grid.Column="1" Text="{Binding XPath=pubDate}"
-                                                       Foreground="DarkGray" HorizontalAlignment="Right" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                                       Foreground="DarkGray" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
                                             <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Margin="0,-1,0,0"
                                                        Text="{Binding XPath=description, Converter={StaticResource StringToStringWithoutHypertextTagsConverter}}" 
                                                        TextTrimming="CharacterEllipsis" TextWrapping="Wrap" MaxHeight="50" />
